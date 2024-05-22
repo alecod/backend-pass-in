@@ -1,0 +1,18 @@
+POST http://localhost:3333/events
+Content-Type: application/json
+
+{
+  "title": "Unite Summit 2024",
+  "details": "Unite SERVICES",
+  "mexAttendees": 100
+}
+
+###
+
+POST http://localhost:3333/events/88a6ff04-9fb0-429c-acde-4ab0985ee0ae/usersEvent
+Content-Type: application/json
+
+{
+  "name": "Alessandro Junqueira",
+  "email": "alecodx@gmail.com"
+}
