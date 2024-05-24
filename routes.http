@@ -23,3 +23,10 @@ GET http://localhost:3333/events/575fd063-b4f3-4a42-913b-0ea7c9693fad
 
 ###
 GET http://localhost:3333/users/2/badge
+
+
+###
+GET http://localhost:3333/users/4/check-in
+
+###
+GET http://localhost:3333/events/575fd063-b4f3-4a42-913b-0ea7c9693fad/users?query=alessandro

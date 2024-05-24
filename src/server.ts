@@ -4,6 +4,8 @@ import { createEvent } from "./routes/createEvent"
 import { registerForEvent } from "./routes/register-for-event";
 import { getEvent } from "./routes/get-event";
 import { getUserBadge } from "./routes/get-user-badge";
+import { checkIn } from "./routes/check-in";
+import { getEventUsers } from "./routes/get-event-users";
 
 // Corpo da requisição (requesty body)
 // Parametros de busca (Search Params / Query Params) 'http://localhost/users?name=alessandro
@@ -24,6 +26,8 @@ app.register(createEvent)
 app.register(registerForEvent)
 app.register(getEvent)
 app.register(getUserBadge)
+app.register(checkIn)
+app.register(getEventUsers)
 
 app.listen({
   port: 3333
