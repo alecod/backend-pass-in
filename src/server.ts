@@ -1,5 +1,7 @@
 import fastify from "fastify"
-import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUI from "@fastify/swagger-ui";
+import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from 'fastify-type-provider-zod'
 import { createEvent } from "./routes/createEvent"
 import { registerForEvent } from "./routes/register-for-event";
 import { getEvent } from "./routes/get-event";
@@ -18,6 +20,24 @@ import { getEventUsers } from "./routes/get-event-users";
 // 500 => Erro do servidor (Um erro que está acontecendo INDEPENDENTE do que está sendo enviado para o servidor)
 
 const app = fastify()
+
+app.register(fastifySwagger, {
+  swagger: {
+    consumes: ["application/json"],
+    produces: ["application/json"],
+    info: {
+      title: "backend-pass-in",
+      description: "Especificações da API para o backend da aplicação",
+      version: "1.0.0"
+    }
+  },
+  transform: jsonSchemaTransform
+})
+
+
+app.register(fastifySwaggerUI, {
+  routePrefix: "/docs"
+})
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
