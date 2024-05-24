@@ -3,16 +3,23 @@ Content-Type: application/json
 
 {
   "title": "Unite Summit 2024",
-  "details": "Unite SERVICES",
-  "mexAttendees": 100
+  "details": null,
+  "mexAttendees": 10
 }
 
 ###
 
-POST http://localhost:3333/events/88a6ff04-9fb0-429c-acde-4ab0985ee0ae/usersEvent
+POST http://localhost:3333/events/575fd063-b4f3-4a42-913b-0ea7c9693fad/usersEvent
 Content-Type: application/json
 
 {
   "name": "Alessandro Junqueira",
-  "email": "alecodx@gmail.com"
+  "email": "alecodx2@gmail.com"
 }
+
+###
+
+GET http://localhost:3333/events/575fd063-b4f3-4a42-913b-0ea7c9693fad
+
+###
+GET http://localhost:3333/users/2/badge
