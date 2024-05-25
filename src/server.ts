@@ -1,42 +1,39 @@
-import fastify from "fastify"
+import fastify from "fastify";
+
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
-import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from 'fastify-type-provider-zod'
-import { createEvent } from "./routes/createEvent"
+import fastifyCors from "@fastify/cors";
+
+import { serializerCompiler, validatorCompiler, jsonSchemaTransform, ZodTypeProvider } from 'fastify-type-provider-zod'
+import { createEvent } from "./routes/create-event";
 import { registerForEvent } from "./routes/register-for-event";
 import { getEvent } from "./routes/get-event";
-import { getUserBadge } from "./routes/get-user-badge";
+import { getAttendeeBadge } from "./routes/get-attendee-badge";
 import { checkIn } from "./routes/check-in";
-import { getEventUsers } from "./routes/get-event-users";
+import { getEventAttendees } from "./routes/get-event-attendees";
+import { errorHandler } from "./error-handler";
 
-// Corpo da requisição (requesty body)
-// Parametros de busca (Search Params / Query Params) 'http://localhost/users?name=alessandro
-//Parametros de rota (Route Params) -> identificação de recursos DELETE 'http://localhost/users/5'
-// Cabeçalhos (Headers) -> Contexto
+export const app = fastify().withTypeProvider<ZodTypeProvider>()
 
-// 200 => Sucesso 
-// 300 => Redirect
-// 400 => Erro do client(Erro em alguma informação enviada por quem está fazendo a chamada para a api) 
-// 500 => Erro do servidor (Um erro que está acontecendo INDEPENDENTE do que está sendo enviado para o servidor)
-
-const app = fastify()
+app.register(fastifyCors, {
+  origin: '*',
+})
 
 app.register(fastifySwagger, {
   swagger: {
-    consumes: ["application/json"],
-    produces: ["application/json"],
+    consumes: ['application/json'],
+    produces: ['application/json'],
     info: {
-      title: "backend-pass-in",
-      description: "Especificações da API para o backend da aplicação",
-      version: "1.0.0"
-    }
+      title: 'pass.in',
+      description: 'Especificações da API para o back-end da aplicação pass.in construída durante o NLW Unite da Rocketseat.',
+      version: '1.0.0'
+    },
   },
-  transform: jsonSchemaTransform
+  transform: jsonSchemaTransform,
 })
 
-
 app.register(fastifySwaggerUI, {
-  routePrefix: "/docs"
+  routePrefix: '/docs',
 })
 
 app.setValidatorCompiler(validatorCompiler);
@@ -45,10 +42,12 @@ app.setSerializerCompiler(serializerCompiler);
 app.register(createEvent)
 app.register(registerForEvent)
 app.register(getEvent)
-app.register(getUserBadge)
+app.register(getAttendeeBadge)
 app.register(checkIn)
-app.register(getEventUsers)
+app.register(getEventAttendees)
 
-app.listen({
-  port: 3333
-}).then(() => {console.log('Servidor Rodando')})
+app.setErrorHandler(errorHandler)
+
+app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
+  console.log('HTTP server running!')
+})
